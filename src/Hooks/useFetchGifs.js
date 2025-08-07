@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getGifs } from "../helpers/getGifs";
 
 export const useFetchGifs = (category) => {
   const [images, setImages] = useState([]);
-  const [Isloading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const getImages = async () => {
+  const getImages = useCallback(async () => {
     const newImages = await getGifs(category);
     setImages(newImages);
     setIsLoading(false);
-  };
+  }, [category]);
 
   useEffect(() => {
     getImages();
-  }, []);
+  }, [getImages]);
 
   return {
     images,
-    Isloading,
+    isLoading,
   };
 };
